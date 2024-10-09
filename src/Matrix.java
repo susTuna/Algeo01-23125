@@ -66,14 +66,14 @@ public class Matrix {
 
     /* Perkalian Baris dengan Konstanta */
     public void multRowByK(int r, float k){
-        for(int i=0;i<this.row;i++){
+        for(int i=0;i<this.col;i++){
             this.element[r][i] *= k;
         }
     }
 
     /* Penjumlahan Baris dengan Kelipatan Baris Lain*/
     public void addRow(int r1, int r2, float k){
-        for(int i=0;i<this.row;i++){
+        for(int i=0;i<this.col;i++){
             this.element[r1][i] += this.element[r2][i]*k;
         }
     }
@@ -102,5 +102,15 @@ public class Matrix {
             }
         }
         return m_tmp;
-    } 
+    }
+
+    /* Check Zero Row */
+    public boolean isZeroRow(int r){
+        for(int i=0;i<this.col-1;i++){ //skip augmented matrix
+            if(this.element[r][i]!=0){
+                return false;
+            }
+        }
+        return true;
+    }
 }
