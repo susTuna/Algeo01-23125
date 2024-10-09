@@ -1,59 +1,107 @@
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Gauss {
-    public static Matrix f(Matrix m){
-        float[] failRet = {-999999999};
+    public static float[] f(Matrix m){
+        float[] err = {-405};
+        float[] solusi = new float[m.col-1];
+        boolean[] isFree = new boolean[m.col-1];
+        boolean unsolv=false;
+        boolean hasFreeVar = false;
+        List<Integer> freeVar = new ArrayList<>();
         /* Ubah Ke Matrix Eselon */
         int N=m.row;
-        for(int i=0;i<N;i++){
-            int max = i;
-            for(int j=i+1;j<N;j++){
-                if(Math.abs(m.elmt(j,i))>Math.abs(m.elmt(max,i))){
-                    max = j;
+        for (int i = 0; i < N; i++) {
+            // Step 1: Find pivot (leading non-zero element in current column)
+            if (m.elmt(i, i) == 0) {
+                for (int j = i + 1; j < N; j++) {
+                    if (m.elmt(j, i) != 0) {
+                        m.swapRow(i, j);
+                        break;
+                    }
                 }
             }
-            m.swapRow(i,max);
 
-            for(int j=i+1;i<N;i++){
-                float factor = -(m.elmt(j,i)/m.elmt(i,i));
-                m.addRow(j,i,factor);
+            // Step 2: Normalize the row so that pivot becomes 1
+            float pivot = m.elmt(i, i);
+            if (pivot != 0) {
+                m.multRowByK(i, 1 / pivot);
             }
-            // /* Cari pivot (menukar hingga didapat baris pertama) */
-            // if(m.elmt(i,i)==0){
-            //     for(int j=i+1;j<m.row;j++){
-            //         if(m.elmt(j,i)!=0){
-            //             m.swapRow(i,j);
-            //             break;
-            //         }
-            //     }
-            // }
 
-            // /* Ubah elemen tidak nol pada baris pertama menjadi 1 */
-            // float pivot = m.elmt(i,i);
-            // if(pivot!=0){
-            //     m.multRowByK(i, 1/pivot);
-            // }
-
-            // /*  */
-            // for(int j=i+1;j<m.row;j++){
-            //     float factor = -m.elmt(j,i);
-            //     m.addRow(j,i,factor);
-            // }
+            // Step 3: Eliminate all elements below the pivot in the current column
+            for (int j = i + 1; j < N; j++) {
+                if(!m.isZeroRow(j)){
+                    float factor = -m.elmt(j, i);
+                    m.addRow(j, i, factor);
+                }
+                
+            }
+        }
+        /* Lakukan Substitusi Balik */
+        for(int i=m.row-1;i>=0;i--){
+            if(m.isZeroRow(i)&&m.elmt(i,m.col-1)!=0){
+                unsolv=true;
+                break; //tidak ada solusi
+            }
+            else if(m.isZeroRow(i)){
+                freeVar.add(i); //variabel bebas
+            }
+            float sum=0;
+            for(int j=i+1;j<m.col-1;j++){
+                sum+=m.elmt(i,j)*solusi[j];
+            }
+            solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
+        }
+        /* Menentukan adanya variabel bebas */
+        for(int i=0;i<N;i++){
+            boolean foundPivot = false;
+            for(int j=0;j<m.col-1;j++){
+                if(m.elmt(i,j)!=0){
+                    foundPivot=true;
+                    break;
+                }
+            }
+            if(!foundPivot){
+                hasFreeVar=true; //variabel bebas ditemukan
+                isFree[i]=true;
+            }
         }
 
-        // for(int i = m.row-1;i>=0;i--){
-        //     for(int j=i-1;j>=0;j--){
-        //         float factor = -m.elmt(j,i);
-        //         m.addRow(j,i,factor);
-        //     }
-        // }
-        
-        return m;
+        /* Keluaran */
+        if(unsolv){
+            System.out.println("Tidak dapat mencari solusi SPL.");
+            return err;
+        }
+        else if(hasFreeVar){
+            for(int i=0;i<m.col-1;i++){
+                if(isFree[i]){
+                    System.out.println("x"+(i+1)+" : variabel bebas");
+                }
+                else{
+                    System.out.print("x"+(i+1)+ " : ");
+                    for(int j=i+1;j<m.col-1;j++){
+                        if(m.elmt(i,j)!=0){
+                            System.out.print(m.elmt(i,j)+" * variabel bebas ");
+                        }  
+                    }
+                    System.out.println();
+                }
+            }
+            return err;
+        }
+        else{
+            for(int i=0;i<solusi.length;i++){
+                System.err.println("x"+(i+1)+" : "+solusi[i]);
+            }
+            return solusi;
+        }
     }
 
+    
+
     public static void main(String[] args) {
+        float[] ans;
         Scanner in = new Scanner(System.in);
         System.out.print("Enter the number of rows: ");
         int rows = in.nextInt();
@@ -67,8 +115,8 @@ public class Gauss {
         System.out.println("Matrix before Gaussian elimination:");
         mat.printMatrix();
         
-        mat=f(mat);
-        
+        ans=f(mat);
+
         System.out.println("Matrix after Gaussian elimination:");
         mat.printMatrix();
     }
