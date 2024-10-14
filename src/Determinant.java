@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Determinant {
-    public static float f(Matrix m){
+    public static float det(Matrix m){
         float err = -405;
         float det = 1;
         /* Ubah Ke Matrix Eselon */
@@ -48,7 +48,7 @@ public class Determinant {
         System.out.println("Enter matrix elements:");
         mat.readMatrix(in);
         
-        ans=f(mat);
+        ans=det(mat);
 
         System.out.println("Matrix after Gaussian elimination:");
         mat.printMatrix();
