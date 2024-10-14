@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Gauss {
-    public static float[] f(Matrix m){
+    public static float[] gauss(Matrix m){
         float[] err = {-405};
         float[] solusi = new float[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
@@ -54,42 +54,42 @@ public class Gauss {
             solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
         }
         /* Menentukan adanya variabel bebas */
-        for(int i=0;i<N;i++){
-            boolean foundPivot = false;
-            for(int j=0;j<m.col-1;j++){
-                if(m.elmt(i,j)!=0){
-                    foundPivot=true;
-                    break;
-                }
-            }
-            if(!foundPivot){
-                hasFreeVar=true; //variabel bebas ditemukan
-                isFree[i]=true;
-            }
-        }
+        // for(int i=0;i<N;i++){
+        //     boolean foundPivot = false;
+        //     for(int j=0;j<m.col-1;j++){
+        //         if(m.elmt(i,j)!=0){
+        //             foundPivot=true;
+        //             break;
+        //         }
+        //     }
+        //     if(!foundPivot){
+        //         hasFreeVar=true; //variabel bebas ditemukan
+        //         isFree[i]=true;
+        //     }
+        // }
 
         /* Keluaran */
         if(unsolv){
             System.out.println("Tidak dapat mencari solusi SPL.");
             return err;
         }
-        else if(hasFreeVar){
-            for(int i=0;i<m.col-1;i++){
-                if(isFree[i]){
-                    System.out.println("x"+(i+1)+" : variabel bebas");
-                }
-                else{
-                    System.out.print("x"+(i+1)+ " : ");
-                    for(int j=i+1;j<m.col-1;j++){
-                        if(m.elmt(i,j)!=0){
-                            System.out.print(m.elmt(i,j)+" * variabel bebas ");
-                        }  
-                    }
-                    System.out.println();
-                }
-            }
-            return err;
-        }
+        // else if(hasFreeVar){
+        //     for(int i=0;i<m.col-1;i++){
+        //         if(isFree[i]){
+        //             System.out.println("x"+(i+1)+" : variabel bebas");
+        //         }
+        //         else{
+        //             System.out.print("x"+(i+1)+ " : ");
+        //             for(int j=i+1;j<m.col-1;j++){
+        //                 if(m.elmt(i,j)!=0){
+        //                     System.out.print(m.elmt(i,j)+" * variabel bebas ");
+        //                 }  
+        //             }
+        //             System.out.println();
+        //         }
+        //     }
+        //     return err;
+        // }
         else{
             for(int i=0;i<solusi.length;i++){
                 System.err.println("x"+(i+1)+" : "+solusi[i]);
@@ -115,7 +115,7 @@ public class Gauss {
         System.out.println("Matrix before Gaussian elimination:");
         mat.printMatrix();
         
-        ans=f(mat);
+        ans=gauss(mat);
 
         System.out.println("Matrix after Gaussian elimination:");
         mat.printMatrix();
