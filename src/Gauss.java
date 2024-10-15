@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Gauss {
-    public static float[] gauss(Matrix m){
+    public static float[] gauss(Matrix m, Scanner in){
         float[] err = {-405};
         float[] solusi = new float[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
@@ -54,46 +54,68 @@ public class Gauss {
             solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
         }
         /* Menentukan adanya variabel bebas */
-        // for(int i=0;i<N;i++){
-        //     boolean foundPivot = false;
-        //     for(int j=0;j<m.col-1;j++){
-        //         if(m.elmt(i,j)!=0){
-        //             foundPivot=true;
-        //             break;
-        //         }
-        //     }
-        //     if(!foundPivot){
-        //         hasFreeVar=true; //variabel bebas ditemukan
-        //         isFree[i]=true;
-        //     }
-        // }
+        for(int i=0;i<N;i++){
+            boolean foundPivot = false;
+            for(int j=0;j<m.col-1;j++){
+                if(m.elmt(i,j)!=0){
+                    foundPivot=true;
+                    break;
+                }
+            }
+            if(!foundPivot){
+                hasFreeVar=true; //variabel bebas ditemukan
+                isFree[i]=true;
+            }
+        }
 
         /* Keluaran */
         if(unsolv){
             System.out.println("Tidak dapat mencari solusi SPL.");
             return err;
         }
-        // else if(hasFreeVar){
-        //     for(int i=0;i<m.col-1;i++){
-        //         if(isFree[i]){
-        //             System.out.println("x"+(i+1)+" : variabel bebas");
-        //         }
-        //         else{
-        //             System.out.print("x"+(i+1)+ " : ");
-        //             for(int j=i+1;j<m.col-1;j++){
-        //                 if(m.elmt(i,j)!=0){
-        //                     System.out.print(m.elmt(i,j)+" * variabel bebas ");
-        //                 }  
-        //             }
-        //             System.out.println();
-        //         }
-        //     }
-        //     return err;
-        // }
-        else{
-            for(int i=0;i<solusi.length;i++){
-                System.err.println("x"+(i+1)+" : "+solusi[i]);
+        else if(hasFreeVar){
+            System.out.println("Hasil perhitungan menggunakan metode Gauss :");
+            for(int i=0;i<m.col-1;i++){
+                if(isFree[i]){
+                    System.out.println("x"+(i+1)+" : variabel bebas");
+                }
+                else{
+                    System.out.print("x"+(i+1)+ " : ");
+                    for(int j=i+1;j<m.col-1;j++){
+                        if(m.elmt(i,j)!=0){
+                            System.out.print(m.elmt(i,j)+" * variabel bebas ");
+                        }  
+                    }
+                    System.out.println();
+                }
             }
+            return err;
+        }
+        else{
+            System.out.println("Hasil perhitungan menggunakan metode Gauss :");
+            for(int i=0;i<solusi.length;i++){
+                System.out.println("x"+(i+1)+" : "+solusi[i]);
+            }
+
+            System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+            String txt = in.next();
+            while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+                System.out.print("Input tidak valid, silahkan input kembali: ");
+                txt = in.next();
+            }
+
+            if (txt.equalsIgnoreCase("y")) {
+                StringBuilder output = new StringBuilder();
+                for (int i = 0; i < solusi.length; i++) {
+                    output.append("x")
+                        .append(i + 1)
+                        .append(" : ")
+                        .append(solusi[i])
+                        .append("\n");
+                }
+                ReadWrite.txtWrite(in, output.toString());
+            }
+
             return solusi;
         }
     }
@@ -103,19 +125,14 @@ public class Gauss {
     public static void main(String[] args) {
         float[] ans;
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter the number of rows: ");
-        int rows = in.nextInt();
-        System.out.print("Enter the number of columns: ");
-        int cols = in.nextInt();
-        
-        Matrix mat = new Matrix(rows, cols);
-        System.out.println("Enter matrix elements:");
-        mat.readMatrix(in);
+
+        Matrix mat = null;
+        mat=ReadWrite.txtRead(in);
         
         System.out.println("Matrix before Gaussian elimination:");
         mat.printMatrix();
         
-        ans=gauss(mat);
+        ans=gauss(mat, in);
 
         System.out.println("Matrix after Gaussian elimination:");
         mat.printMatrix();
