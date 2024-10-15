@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GaussJordan {
-    public static float[] gaussJ(Matrix m){
+    public static float[] gaussJ(Matrix m, Scanner in){
         float[] err = {-405};
         float[] solusi = new float[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
@@ -11,7 +11,7 @@ public class GaussJordan {
         boolean hasFreeVar = false;
         List<Integer> freeVar = new ArrayList<>();
         /* Ubah Ke Matrix Eselon */
-        int N=m.row;
+        int N=Math.min(m.row, m.col);
         for (int i = 0; i < N; i++) {
             // Step 1: Find pivot (leading non-zero element in current column)
             if (m.elmt(i, i) == 0) {
@@ -66,19 +66,19 @@ public class GaussJordan {
             solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
         }
         /* Menentukan adanya variabel bebas */
-        for(int i=0;i<N;i++){
-            boolean foundPivot = false;
-            for(int j=0;j<m.col-1;j++){
-                if(m.elmt(i,j)!=0){
-                    foundPivot=true;
-                    break;
-                }
-            }
-            if(!foundPivot){
-                hasFreeVar=true; //variabel bebas ditemukan
-                isFree[i]=true;
-            }
-        }
+        // for(int i=0;i<N;i++){
+        //     boolean foundPivot = false;
+        //     for(int j=0;j<m.col-1;j++){
+        //         if(m.elmt(i,j)!=0){
+        //             foundPivot=true;
+        //             break;
+        //         }
+        //     }
+        //     if(!foundPivot){
+        //         hasFreeVar=true; //variabel bebas ditemukan
+        //         isFree[i]=true;
+        //     }
+        // }
 
         /* Keluaran */
         if(unsolv){
@@ -103,9 +103,30 @@ public class GaussJordan {
             return err;
         }
         else{
+            System.out.println("Hasil perhitungan menggunakan metode Gauss-Jordan:");
             for(int i=0;i<solusi.length;i++){
-                System.err.println("x"+(i+1)+" : "+solusi[i]);
+                System.out.println("x"+(i+1)+" : "+solusi[i]);
             }
+
+            System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+            String txt = in.next();
+            while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+                System.out.print("Input tidak valid, silahkan input kembali: ");
+                txt = in.next();
+            }
+
+            if (txt.equalsIgnoreCase("y")) {
+                StringBuilder output = new StringBuilder();
+                for (int i = 0; i < solusi.length; i++) {
+                    output.append("x")
+                        .append(i + 1)
+                        .append(" : ")
+                        .append(solusi[i])
+                        .append("\n");
+                }
+                ReadWrite.txtWrite(in, output.toString());
+            }
+
             return solusi;
         }
     }
@@ -115,19 +136,14 @@ public class GaussJordan {
     public static void main(String[] args) {
         float[] ans;
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter the number of rows: ");
-        int rows = in.nextInt();
-        System.out.print("Enter the number of columns: ");
-        int cols = in.nextInt();
         
-        Matrix mat = new Matrix(rows, cols);
-        System.out.println("Enter matrix elements:");
-        mat.readMatrix(in);
+        Matrix mat = null;
+        mat=ReadWrite.txtRead(in);
         
         System.out.println("Matrix before Gauss-Jordan elimination:");
         mat.printMatrix();
         
-        ans=gaussJ(mat);
+        ans=gaussJ(mat,in);
 
         System.out.println("Matrix after Gaussian-Jordan elimination:");
         mat.printMatrix();
