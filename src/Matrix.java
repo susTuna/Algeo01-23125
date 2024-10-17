@@ -113,4 +113,9 @@ public class Matrix {
         }
         return true;
     }
+
+    /* Check If Matrix Is Square */
+    public boolean isSquare() {
+        return this.row == this.col;
+    }
 }
