@@ -32,7 +32,7 @@ public class Cramer {
         System.out.print("Enter the number of columns: ");
         int cols = in.nextInt();
         
-        Matrix mat = new Matrix(rows, cols);
+        Matrix mat = new Matrix(rows, cols+1);
         System.out.println("Enter matrix elements:");
         mat.readMatrix(in);
         ans = cramer(mat);
