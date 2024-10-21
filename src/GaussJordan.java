@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GaussJordan {
-    public static float[] f(Matrix m){
+    public static float[] gaussJordan(Matrix m){
         float[] err = {-405};
         float[] solusi = new float[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
@@ -127,7 +127,7 @@ public class GaussJordan {
         System.out.println("Matrix before Gauss-Jordan elimination:");
         mat.printMatrix();
         
-        ans=f(mat);
+        ans=gaussJordan(mat);
 
         System.out.println("Matrix after Gaussian-Jordan elimination:");
         mat.printMatrix();
