@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Gauss {
-    public static float[] f(Matrix m){
+    public static float[] gauss(Matrix m){
         float[] err = {-405};
         float[] solusi = new float[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
@@ -115,7 +115,7 @@ public class Gauss {
         System.out.println("Matrix before Gaussian elimination:");
         mat.printMatrix();
         
-        ans=f(mat);
+        ans=gauss(mat);
 
         System.out.println("Matrix after Gaussian elimination:");
         mat.printMatrix();
