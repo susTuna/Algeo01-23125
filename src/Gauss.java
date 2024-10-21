@@ -3,9 +3,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Gauss {
-    public static float[] gauss(Matrix m, Scanner in){
-        float[] err = {-405};
-        float[] solusi = new float[m.col-1];
+    public static double[] gauss(Matrix m, Scanner in){
+        double[] err = {-405};
+        double[] solusi = new double[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
         boolean unsolv=false;
         boolean hasFreeVar = false;
@@ -24,7 +24,7 @@ public class Gauss {
             }
 
             // Step 2: Normalize the row so that pivot becomes 1
-            float pivot = m.elmt(i, i);
+            double pivot = m.elmt(i, i);
             if (pivot != 0) {
                 m.multRowByK(i, 1 / pivot);
             }
@@ -32,7 +32,7 @@ public class Gauss {
             // Step 3: Eliminate all elements below the pivot in the current column
             for (int j = i + 1; j < N; j++) {
                 if(!m.isZeroRow(j)){
-                    float factor = -m.elmt(j, i);
+                    double factor = -m.elmt(j, i);
                     m.addRow(j, i, factor);
                 }
                 
@@ -47,7 +47,7 @@ public class Gauss {
             else if(m.isZeroRow(i)){
                 freeVar.add(i); //variabel bebas
             }
-            float sum=0;
+            double sum=0;
             for(int j=i+1;j<m.col-1;j++){
                 sum+=m.elmt(i,j)*solusi[j];
             }
@@ -123,7 +123,7 @@ public class Gauss {
     
 
     public static void main(String[] args) {
-        float[] ans;
+        double[] ans;
         Scanner in = new Scanner(System.in);
 
         Matrix mat = null;
