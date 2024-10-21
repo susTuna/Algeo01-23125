@@ -1,10 +1,12 @@
 import java.util.Scanner;
 
 public class Cramer {
-    public static float[] cramer(Matrix m){
-        float[] solusi = new float[m.row];
+    public static double[] cramer(Matrix m){
+        double[] err = {-405};
+        boolean unsolv=false;
+        double[] solusi = new double[m.row];
         Matrix temp = new Matrix(m.row, m.col-1);
-        float dete = Determinant.det(m);
+        double dete = Determinant.det(m);
         if (Determinant.det(m) != 0 && m.row == (m.col-1)) {
             for (int i = 0; i < m.row; i++) { 
                 // Swap column i with the last column
@@ -20,12 +22,20 @@ public class Cramer {
                 // Swap back the column
                 m.swapCol(i, m.col-1);
             }
+        } else {
+            unsolv = true;
         }
+
+        if(unsolv){
+            System.out.println("Tidak dapat mencari solusi kaidah cramer karena determinan matriks = 0.");
+            return err;
+        }
+
         return solusi;
     }
 
     public static void main(String[] args) {
-        float[] ans;
+        double[] ans;
         Scanner in = new Scanner(System.in);
         System.out.print("Enter the number of rows: ");
         int rows = in.nextInt();
