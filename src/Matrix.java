@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Matrix {
-    float element[][];
+    double element[][];
     int row;
     int col;
 
@@ -9,16 +9,16 @@ public class Matrix {
     public Matrix(int row, int col){
         this.row = row;
         this.col = col;
-        this.element = new float[row][col];
+        this.element = new double[row][col];
     }
 
     /* Konstruktor */
-    public void set(int row, int col, float val){
+    public void set(int row, int col, double val){
         this.element[row][col] = val;
     }
 
     /* Selektor */
-    public float elmt(int row, int col){
+    public double elmt(int row, int col){
         return this.element[row][col];
     }
 
@@ -26,7 +26,7 @@ public class Matrix {
     public void readMatrix(Scanner in){
         for(int i=0;i<this.row;i++){
             for(int j=0;j<this.col;j++){
-                this.element[i][j] = in.nextFloat();
+                this.element[i][j] = in.nextDouble();
             }
         }
     }
@@ -51,28 +51,28 @@ public class Matrix {
     /* OBE */
     /* Tukar 2 Baris */
     public void swapRow(int r1, int r2){
-        float tmp[] = this.element[r1];
+        double tmp[] = this.element[r1];
         this.element[r1] = this.element[r2];
         this.element[r2] = tmp;
     }
 
     public void swapCol(int c1, int c2){
         for(int i=0;i<this.row;i++){
-            float tmp = this.elmt(i,c1);
+            double tmp = this.elmt(i,c1);
             this.set(i,c1,this.elmt(i,c2));
             this.set(i,c2,tmp);
         }
     }
 
     /* Perkalian Baris dengan Konstanta */
-    public void multRowByK(int r, float k){
+    public void multRowByK(int r, double k){
         for(int i=0;i<this.col;i++){
             this.element[r][i] *= k;
         }
     }
 
     /* Penjumlahan Baris dengan Kelipatan Baris Lain*/
-    public void addRow(int r1, int r2, float k){
+    public void addRow(int r1, int r2, double k){
         for(int i=0;i<this.col;i++){
             this.element[r1][i] += this.element[r2][i]*k;
         }
@@ -112,5 +112,10 @@ public class Matrix {
             }
         }
         return true;
+    }
+
+    /* Check If Matrix Is Square */
+    public boolean isSquare() {
+        return this.row == this.col;
     }
 }
