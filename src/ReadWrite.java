@@ -36,7 +36,7 @@ public class ReadWrite {
                     String line = dataReader.nextLine();
                     String[] row = line.split(" ");
                     for (int j = 0; j < colSize; j++) {
-                        A.set(i, j, Float.parseFloat(row[j]));
+                        A.set(i, j, Double.parseDouble(row[j]));
                     }
                     i++;
                 }
