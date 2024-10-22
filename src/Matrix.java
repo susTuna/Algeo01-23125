@@ -48,6 +48,17 @@ public class Matrix {
         }
     }
 
+    /* Salin Matrix */
+    public Matrix copyMatrix(Matrix m){
+        Matrix m1 = new Matrix(m.row,m.col);
+        for(int i=0;i<this.row;i++){
+            for(int j=0;j<this.col;j++){
+                m1.set(i,j,m.elmt(i,j));
+            }
+        }
+        return m1;
+    }
+
     /* OBE */
     /* Tukar 2 Baris */
     public void swapRow(int r1, int r2){
