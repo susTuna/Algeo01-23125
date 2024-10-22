@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GaussJordan {
+    public static float[] gaussJordan(Matrix m){
+        float[] err = {-405};
+        float[] solusi = new float[m.col-1];
     public static double[] gaussJ(Matrix m, Scanner in){
         double[] err = {-405};
         double[] solusi = new double[m.col-1];
