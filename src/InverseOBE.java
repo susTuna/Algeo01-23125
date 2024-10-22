@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class InverseOBE {
-    public static Matrix inverseOBE(Matrix m){
+    public static Matrix inverseOBE(Matrix m, Scanner in){
         boolean unsolv = false;
         Matrix solusi = new Matrix(m.row,m.col);
         Matrix temp = new Matrix(m.row,m.col+m.col);
@@ -25,7 +25,45 @@ public class InverseOBE {
             }
 
             // OBE dengan Gauss-Jordan
-            GaussJordan.gaussJordan(temp);
+            int N=Math.min(temp.row, temp.col);
+            for (int i = 0; i < N; i++) {
+                // Step 1: Find pivot (leading non-zero element in current column)
+                if (temp.elmt(i, i) == 0) {
+                    for (int j = i + 1; j < N; j++) {
+                        if (temp.elmt(j, i) != 0) {
+                            temp.swapRow(i, j);
+                            break;
+                        }
+                    }
+                }
+
+                // Step 2: Normalize the row so that pivot becomes 1
+                double pivot = temp.elmt(i, i);
+                if (pivot != 0) {
+                    temp.multRowByK(i, 1 / pivot);
+                }
+
+                // Step 3: Eliminate all elements below the pivot in the current column
+                for (int j = i + 1; j < N; j++) {
+                    if(!temp.isZeroRow(j)){
+                        double factor = -temp.elmt(j, i);
+                        temp.addRow(j, i, factor);
+                    }
+                    
+                }
+            }
+
+            /* Eliminasi Gauss-Jordan */
+            for(int i=N-1;i>=0;i--){
+                double pivot = temp.elmt(i,i);
+
+                for(int j=i-1;j>=0;j--){
+                    if(!temp.isZeroRow(j)){
+                        double factor = -temp.elmt(j, i);
+                        temp.addRow(j, i, factor);
+                    }
+                }
+            }
 
             for (int i=0; i<temp.row; i++){
                 // Cek setengah matriks temp (bagian kiri) apakah sudah menjadi matriks identitas
@@ -65,7 +103,7 @@ public class InverseOBE {
         Matrix mat = new Matrix(rows, cols);
         System.out.println("Enter matrix elements:");
         mat.readMatrix(in);
-        ans = inverseOBE(mat);
+        ans = inverseOBE(mat, in);
 
         if (ans != null) {
             for (int i=0; i < ans.row; i++) {
