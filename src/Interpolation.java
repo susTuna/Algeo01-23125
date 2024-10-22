@@ -168,7 +168,7 @@ public class Interpolation {
         
             case 2:
                 Matrix mat = ReadWrite.txtRead(in);
-                Matrix interpolmat = new Matrix(m.row-1,m.row);
+                Matrix interpolmat = new Matrix(mat.row-1,mat.row);
                 for (int i=0;i<interpolmat.row;i++){
                     double ex=mat.element[i][0];
                     for (int j=0;j<interpolmat.row;j++){
@@ -191,13 +191,29 @@ public class Interpolation {
         
         System.out.println("Hasil perhitungan interpolasi polinomial :");
         System.out.print("f(x) = ");
-            for(int i=solusi.length-1;i>=0;i--){
+        String outPut;
+        String outPutH;
+        outPutH = "Dengan taksiran untuk f(";
+        outPut = "f(x) = ";
+            for(int i=0;i<solusi.length;i++){
                 hasil+=solusi[i]*Math.pow(taksiran,i);
-                if(i!=solusi.length-1){
-                    System.out.print(" + ");
+                if(i!=0){
+                    if(solusi[i]<0){
+                        System.out.print(" - ");
+                        System.out.print(-solusi[i]+"x^"+(i));
+                        outPut+=(" - "+Double.toString(-solusi[i])+"x^"+(i));
+                    }
+                    else{
+                        System.out.print(" + ");
+                        System.out.print(solusi[i]+"x^"+(i));
+                        outPut+=(" + "+Double.toString(solusi[i])+"x^"+(i));
+                    }
+                }else{
+                    System.out.print(solusi[i]);
+                    outPut+=(Double.toString(solusi[i]));
                 }
-                System.out.print(solusi[i]+"x^"+(i));
             }
+            outPutH+=(Double.toString(taksiran)+") adalah " + Double.toString(hasil));
             System.out.println();
             System.out.println("Dengan taksiran untuk f("+taksiran+") adalah " + hasil);
             
@@ -211,20 +227,13 @@ public class Interpolation {
 
             if (txt.equalsIgnoreCase("y")) {
                 StringBuilder output = new StringBuilder();
-                for (int i = 0; i < solusi.length; i++) {
-                    output.append("x")
-                        .append(i + 1)
-                        .append(" : ")
-                        .append(solusi[i])
-                        .append("\n");
-                }
+                output.append(outPut).append("\n").append(outPutH).append("\n");
                 ReadWrite.txtWrite(in, output.toString());
             }
     }
     
 
     public static void main(String[] args) {
-        double[] ans;
         Scanner in = new Scanner(System.in);
         interpolF(in);
     }
