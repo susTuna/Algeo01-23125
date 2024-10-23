@@ -176,8 +176,7 @@ public class GaussJordan {
     }
 
     public static void main(String[] args) {
-        double[] ans; //array solusi SPL
-        Matrix ans2; //matriks hasil eliminasi gauss
+        Matrix ans;
         Scanner in = new Scanner(System.in);
         
         Matrix mat;
@@ -186,11 +185,10 @@ public class GaussJordan {
         System.out.println("Matriks sebelum Eliminasi Gauss-Jordan:");
         mat.printMatrix();
         
-        ans=gaussJordan(mat, in);
-        ans2=mgaussJordan(mat, in);
+        ans=mgaussJordan(mat, in);
 
         System.out.println("Matriks setelah Eliminasi Gauss-Jordan:");
-        ans2.printMatrix();
+        ans.printMatrix();
     }
 }
     
