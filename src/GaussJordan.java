@@ -191,11 +191,6 @@ public class GaussJordan {
 
         System.out.println("Matriks setelah Eliminasi Gauss-Jordan:");
         ans2.printMatrix();
-
-        System.out.println("Solusi SPL:");
-        for (int i = 0; i < ans.length; i++) {
-            System.out.println("x" + (i+1) + " : " + ans[i]);
-        }
     }
 }
     
