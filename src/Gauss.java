@@ -120,7 +120,37 @@ public class Gauss {
         }
     }
 
-    
+    public static Matrix mgauss(Matrix m){
+        /* Ubah Ke Matrix Eselon */
+        int N=m.row;
+        for (int i = 0; i < N; i++) {
+            // Step 1: Find pivot (leading non-zero element in current column)
+            if (m.elmt(i, i) == 0) {
+                for (int j = i + 1; j < N; j++) {
+                    if (m.elmt(j, i) != 0) {
+                        m.swapRow(i, j);
+                        break;
+                    }
+                }
+            }
+
+            // Step 2: Normalize the row so that pivot becomes 1
+            double pivot = m.elmt(i, i);
+            if (pivot != 0) {
+                m.multRowByK(i, 1 / pivot);
+            }
+
+            // Step 3: Eliminate all elements below the pivot in the current column
+            for (int j = i + 1; j < N; j++) {
+                if(!m.isZeroRow(j)){
+                    double factor = -m.elmt(j, i);
+                    m.addRow(j, i, factor);
+                }
+                
+            }
+        }
+        return m;
+    }
 
     public static void main(String[] args) {
         double[] ans;
