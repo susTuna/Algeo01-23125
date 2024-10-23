@@ -120,7 +120,7 @@ public class Gauss {
         }
     }
 
-    public static Matrix mgauss(Matrix m){
+    public static Matrix mgauss(Matrix m, Scanner in){
         /* Ubah Ke Matrix Eselon */
         int N=m.row;
         for (int i = 0; i < N; i++) {
@@ -153,18 +153,25 @@ public class Gauss {
     }
 
     public static void main(String[] args) {
-        double[] ans;
+        double[] ans; //array solusi SPL
+        Matrix ans2; //matriks hasil eliminasi gauss
         Scanner in = new Scanner(System.in);
 
-        Matrix mat = null;
+        Matrix mat;
         mat=ReadWrite.txtRead(in);
         
-        System.out.println("Matrix before Gaussian elimination:");
+        System.out.println("Matriks sebelum Eliminasi Gauss:");
         mat.printMatrix();
         
         ans=gauss(mat, in);
+        ans2=mgauss(mat, in);
 
-        System.out.println("Matrix after Gaussian elimination:");
-        mat.printMatrix();
+        System.out.println("Matriks setelah Eliminasi Gauss:");
+        ans2.printMatrix();
+
+        System.out.println("Solusi SPL:");
+        for (int i = 0; i < ans.length; i++) {
+            System.out.println("x" + (i+1) + " : " + ans[i]);
+        }
     }
 }

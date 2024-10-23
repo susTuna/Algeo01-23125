@@ -5,7 +5,7 @@ public class InverseOBE {
         boolean unsolv = false;
         Matrix solusi = new Matrix(m.row,m.col);
         Matrix temp = new Matrix(m.row,m.col+m.col);
-        if (Determinant.det(m)!=0 && m.row==m.col){
+        if (Determinant.det(m, in)!=0 && m.row==m.col){
 
             // Perbesar matriks
             for (int i=0; i<temp.row; i++){
@@ -54,16 +54,7 @@ public class InverseOBE {
             }
 
             /* Eliminasi Gauss-Jordan */
-            for(int i=N-1;i>=0;i--){
-                double pivot = temp.elmt(i,i);
-
-                for(int j=i-1;j>=0;j--){
-                    if(!temp.isZeroRow(j)){
-                        double factor = -temp.elmt(j, i);
-                        temp.addRow(j, i, factor);
-                    }
-                }
-            }
+            GaussJordan.mgaussJordan(temp, in);
 
             for (int i=0; i<temp.row; i++){
                 // Cek setengah matriks temp (bagian kiri) apakah sudah menjadi matriks identitas
@@ -95,24 +86,16 @@ public class InverseOBE {
     public static void main(String[] args) {
         Matrix ans;
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter the number of rows: ");
-        int rows = in.nextInt();
-        System.out.print("Enter the number of columns: ");
-        int cols = in.nextInt();
-        
-        Matrix mat = new Matrix(rows, cols);
-        System.out.println("Enter matrix elements:");
-        mat.readMatrix(in);
-        ans = inverseOBE(mat, in);
 
-        if (ans != null) {
-            for (int i=0; i < ans.row; i++) {
-                for (int j=0; j < ans.col; j++) {
-                    System.out.print(ans.elmt(i, j) + " ");
-                }
-                System.out.println();
-            }
-        }
+        Matrix mat;
+        mat=ReadWrite.txtRead(in);
+
+        System.out.println("Matriks sebelum operasi invers:");
+        mat.printMatrix();
         
+        ans=inverseOBE(mat, in);
+
+        System.out.println("Matriks setelah operasi invers dengan OBE:");
+        ans.printMatrix();
     }
 }
