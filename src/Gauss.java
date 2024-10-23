@@ -153,8 +153,7 @@ public class Gauss {
     }
 
     public static void main(String[] args) {
-        double[] ans; //array solusi SPL
-        Matrix ans2; //matriks hasil eliminasi gauss
+        Matrix ans; //matriks hasil eliminasi gauss
         Scanner in = new Scanner(System.in);
 
         Matrix mat;
@@ -163,10 +162,9 @@ public class Gauss {
         System.out.println("Matriks sebelum Eliminasi Gauss:");
         mat.printMatrix();
         
-        ans=gauss(mat, in);
-        ans2=mgauss(mat, in);
+        ans=mgauss(mat, in);
 
         System.out.println("Matriks setelah Eliminasi Gauss:");
-        ans2.printMatrix();
+        ans.printMatrix();
     }
 }
