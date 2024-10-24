@@ -2,7 +2,7 @@
 Tugas Besar 1 IF2123 Aljabar Linear dan Geometri -  Sistem Persamaan Linear, Determinan, dan Aplikasinya
 
 <p align="center">
-  <img height="360px" src="https://github.com/susTuna/susTuna/blob/main/108105991_p0_master1200%20(1).jpg?raw=true" alt="logo HMIF"/>
+  <img height="360px" src="https://github.com/susTuna/susTuna/blob/main/bayu-saber.gifraw=true" alt="rungkad dikit"/>
   <br>
   <a><i><sup>Personil kelompok "Tidak perlu mandi jenderal"</sup></i></a>
 </p>
