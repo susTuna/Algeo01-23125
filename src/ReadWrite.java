@@ -1,9 +1,36 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class ReadWrite {
+    public static int fileOrKeys(Scanner in) {
+        int choice;
+        String line;
+        String[] row = new String[100];
+
+        System.out.println("PILIH CARA INPUT MATRIKS!");
+        System.out.println("1. Dari keyboard");
+        System.out.println("2. Dari file");
+        System.out.print("Pilihan: ");
+        do{
+            System.out.print(">>");
+            line = in.nextLine();
+            row = line.split(" ");
+            try{
+                choice = Integer.parseInt(row[0]);
+
+            }catch(NumberFormatException e){
+                choice = 0;
+            }
+            if (choice <= 0 || choice > 2){
+                System.out.println("Input tidak valid. Coba lagi.");
+            }
+        }while(choice <= 0 || choice > 2);
+        
+        return choice;
+    }
+
     public static Matrix txtRead(Scanner in) {
     Matrix A = new Matrix(0, 0);
 
@@ -79,4 +106,62 @@ public class ReadWrite {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    public static void doubleToFile(double value, Scanner in) {
+        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        String txt = in.next();
+        while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+            System.out.print("Input tidak valid, silahkan input kembali: ");
+            txt = in.next();
+        }
+    
+        if (txt.equalsIgnoreCase("y")) {
+            String output = "Nilai : " + value + "\n";
+            txtWrite(in, output);
+        }
+    }
+
+    public static void arrToFile(double[] solusi, Scanner in) {
+        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        String txt = in.next();
+        while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+            System.out.print("Input tidak valid, silahkan input kembali: ");
+            txt = in.next();
+        }
+
+        if (txt.equalsIgnoreCase("y")) {
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < solusi.length; i++) {
+                output.append("x")
+                    .append(i + 1)
+                    .append(" : ")
+                    .append(solusi[i])
+                    .append("\n");
+            }
+            txtWrite(in, output.toString());
+        }
+    }
+    
+    public static void matrixToFile(Matrix solusi, Scanner in) {
+        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        String txt = in.next();
+        while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+            System.out.print("Input tidak valid, silahkan input kembali: ");
+            txt = in.next();
+        }
+    
+        if (txt.equalsIgnoreCase("y")) {
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < solusi.row; i++) {
+                for (int j = 0; j < solusi.col; j++) {
+                    output.append(solusi.elmt(i, j)).append(" ");
+                }
+                output.append("\n");  // Move to the next line after each row
+            }
+            txtWrite(in, output.toString());
+        }
+    }
+    
+
+    
 }
