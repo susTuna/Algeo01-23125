@@ -65,7 +65,7 @@ public class RegQuadratic{
 
         // Check if there's no solution
         if (solution == err) {
-            System.out.println("Tidak dapat mencari solusi regresi.");
+            System.out.println("\nTidak dapat mencari solusi regresi.");
             return err;
         }
 
@@ -74,7 +74,7 @@ public class RegQuadratic{
 
     public static void f(double[] solusi, Scanner in, double[] taksiran) {
         double hasil = 0;
-        System.out.println("Hasil perhitungan regresi kuadratik berganda :");
+        System.out.println("\nHasil perhitungan regresi kuadratik berganda :");
         String outPut = "f(x) = ";
         String outPutH = "Dengan taksiran untuk f(";
         
@@ -117,7 +117,7 @@ public class RegQuadratic{
         System.out.println(outPutH);
 
         // Option to write the result to a file
-        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
             System.out.print("Input tidak valid, silahkan input kembali: ");
@@ -140,26 +140,26 @@ public class RegQuadratic{
         choose = ReadWrite.fileOrKeys(in);
 
         if (choose == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
             
             mat = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             mat.readMatrix(in);
         } else {
             mat = ReadWrite.txtRead(in);
         }
 
-        System.out.println("Masukkan taksiran (x1, x2, ...):");
+        System.out.println("\nMasukkan taksiran (x1, x2, ...):");
         double[] taksiran = new double[mat.col - 1];
         for (int i = 0; i < taksiran.length; i++) {
             System.out.print("x_" + (i + 1) + ": ");
             taksiran[i] = in.nextDouble();
         }
 
-        System.out.println("Matriks sebelum regresi kuadratik:");
+        System.out.println("\nMatriks sebelum regresi kuadratik:");
         mat.printMatrix();  // Assuming Matrix class has a display method
 
         // Perform quadratic regression

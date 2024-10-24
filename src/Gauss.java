@@ -45,11 +45,11 @@ public class Gauss {
 
         /* Keluaran */
         if(unsolv){
-            System.out.println("Tidak dapat mencari solusi SPL.");
+            System.out.println("\nTidak dapat mencari solusi SPL.");
             return err;
         }
         else if(hasFreeVar){
-            System.out.println("Hasil perhitungan menggunakan metode Gauss :");
+            System.out.println("\nHasil perhitungan menggunakan metode Gauss :");
             for(int i=0;i<m.col-1;i++){
                 if(isFree[i]){
                     System.out.println("x"+(i+1)+" : variabel bebas");
@@ -67,7 +67,7 @@ public class Gauss {
             return err;
         }
         else{
-            System.out.println("Hasil perhitungan menggunakan metode Gauss :");
+            System.out.println("\nHasil perhitungan menggunakan metode Gauss :");
             for(int i=0;i<solusi.length;i++){
                 System.out.println("x"+(i+1)+" : "+solusi[i]);
             }
@@ -127,7 +127,7 @@ public class Gauss {
             solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
         }
         if(unsolv){
-            System.out.println("Tidak dapat mencari solusi SPL.");
+            System.out.println("\nTidak dapat mencari solusi SPL.");
             return err;
         }else{
             return solusi;
@@ -143,21 +143,21 @@ public class Gauss {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
             
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
             
-            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            System.out.println("\nMatriks sebelum Eliminasi Gauss:");
             m1.printMatrix();
             
             ans=mgauss(m1, in);
 
-            System.out.println("Matriks setelah Eliminasi Gauss:");
+            System.out.println("\nMatriks setelah Eliminasi Gauss:");
             ans.printMatrix();
 
             // Print solusi
@@ -170,12 +170,12 @@ public class Gauss {
             Matrix m2;
             m2=ReadWrite.txtRead(in);
         
-            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            System.out.println("\nMatriks sebelum Eliminasi Gauss:");
             m2.printMatrix();
             
             ans=mgauss(m2, in);
 
-            System.out.println("Matriks setelah Eliminasi Gauss:");
+            System.out.println("\nMatriks setelah Eliminasi Gauss:");
             ans.printMatrix();
 
             // Print solusi

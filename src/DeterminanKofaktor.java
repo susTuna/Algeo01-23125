@@ -46,28 +46,28 @@ public class DeterminanKofaktor {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int row = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int col = in.nextInt();
 
             Matrix m1 = new Matrix(row, col);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
 
-            System.out.println("Matriks sebelum operasi determinan kofaktor:");
+            System.out.println("\nMatriks sebelum operasi determinan kofaktor:");
             m1.printMatrix();
 
             // Periksa apakah matriks adalah NxN (row harus sama dengan col untuk menghitung determinan)
             if (row == col) {
                 double hasil = determinan(m1, col);
                 // Cetak hasil determinan
-                System.out.println("Determinan matriks adalah: " + hasil);
+                System.out.println("\nDeterminan matriks adalah: " + hasil);
 
                 // Write to file
                 ReadWrite.doubleToFile(hasil, in);
             } else {
-                System.out.println("Matriks bukan persegi (NxN), sehingga determinan tidak dapat dihitung.");
+                System.out.println("\nMatriks bukan persegi (NxN), sehingga determinan tidak dapat dihitung.");
             }
 
         } else { // if (choice == 2)
@@ -76,19 +76,19 @@ public class DeterminanKofaktor {
             int row2 = m2.row;
             int col2 = m2.col;
 
-            System.out.println("Matriks sebelum operasi determinan kofaktor:");
+            System.out.println("\nMatriks sebelum operasi determinan kofaktor:");
             m2.printMatrix();
 
             // Periksa apakah matriks adalah NxN (row harus sama dengan col untuk menghitung determinan)
             if (row2 == col2) {
                 double hasil = determinan(m2, col2);
                 // Cetak hasil determinan
-                System.out.println("Determinan matriks adalah: " + hasil);
+                System.out.println("\nDeterminan matriks adalah: " + hasil);
 
                 // Write to file
                 ReadWrite.doubleToFile(hasil, in);
             } else {
-                System.out.println("Matriks bukan persegi (NxN), sehingga determinan tidak dapat dihitung.");
+                System.out.println("\nMatriks bukan persegi (NxN), sehingga determinan tidak dapat dihitung.");
             }
         }
 

@@ -9,7 +9,7 @@ public class ReadWrite {
         String line;
         String[] row = new String[100];
 
-        System.out.println("PILIH CARA INPUT MATRIKS!");
+        System.out.println("\nPILIH CARA INPUT MATRIKS!");
         System.out.println("1. Dari keyboard");
         System.out.println("2. Dari file");
         System.out.print("Pilihan: ");
@@ -24,7 +24,7 @@ public class ReadWrite {
                 choice = 0;
             }
             if (choice <= 0 || choice > 2){
-                System.out.println("Input tidak valid. Coba lagi.");
+                System.out.println("\nInput tidak valid. Coba lagi.");
             }
         }while(choice <= 0 || choice > 2);
         
@@ -37,7 +37,7 @@ public class ReadWrite {
     // Input file name
     String namaFile = "";
     while (namaFile.isEmpty()) {
-        System.out.print("Masukkan nama file (<namafile>.txt): ");
+        System.out.print("\nMasukkan nama file (<namafile>.txt): ");
         namaFile = in.next();
     }
     System.out.println("Nama file yang dipilih: " + namaFile);
@@ -75,9 +75,9 @@ public class ReadWrite {
             }
         }
     } catch (FileNotFoundException e) {
-        System.out.println("Error: File tidak ditemukan. Pesan error: " + e.getMessage());
+        System.out.println("\nError: File tidak ditemukan. Pesan error: " + e.getMessage());
     } catch (Exception e) {
-        System.out.println("Error saat parsing file: " + e.getMessage());
+        System.out.println("\nError saat parsing file: " + e.getMessage());
     }
 
     return A;
@@ -108,7 +108,7 @@ public class ReadWrite {
     }
 
     public static void doubleToFile(double value, Scanner in) {
-        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
             System.out.print("Input tidak valid, silahkan input kembali: ");
@@ -122,7 +122,7 @@ public class ReadWrite {
     }
 
     public static void arrToFile(double[] solusi, Scanner in) {
-        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
             System.out.print("Input tidak valid, silahkan input kembali: ");
@@ -143,7 +143,7 @@ public class ReadWrite {
     }
     
     public static void matrixToFile(Matrix solusi, Scanner in) {
-        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
             System.out.print("Input tidak valid, silahkan input kembali: ");

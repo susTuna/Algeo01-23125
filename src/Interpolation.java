@@ -138,23 +138,23 @@ public class Interpolation {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.println("Masukkan jumlah titik yang akan diinterpolasi (minimal 2): ");
+            System.out.println("\nMasukkan jumlah titik yang akan diinterpolasi (minimal 2): ");
             int n = Main.cinMinCheck(2,in);
             m = new Matrix(n,2);
             double[] x = new double[n];
             double[] y = new double[n];
             while (true){
-                System.out.println("Masukkan "+n+" titik (Format: xn yn lalu diakhiri enter)");
+                System.out.println("\nMasukkan "+n+" titik (Format: xn yn lalu diakhiri enter)");
                 m.readMatrix(in);
                 if (arePointsUnique(m)){
                     break;
                 }
-                System.out.println("Data tidak valid! Setiap titik harus berbeda");
+                System.out.println("\nData tidak valid! Setiap titik harus berbeda");
             }
-            System.out.println("Masukkan nilai x yang akan ditaksir nilai fungsinya: ");
+            System.out.println("\nMasukkan nilai x yang akan ditaksir nilai fungsinya: ");
             taksiran=in.nextDouble();
             while (taksiran<findX0c1(m) || taksiran>findXnc1(m)){
-                System.out.println("Input tidak valid, silahkan input kembali");
+                System.out.println("\nInput tidak valid, silahkan input kembali");
                 System.out.println("Nilai x harus berada di antara x0 sampai xn");
                 taksiran=in.nextDouble();
             }
@@ -175,17 +175,17 @@ public class Interpolation {
             }
             taksiran=mat.elmt(mat.row-1, 0);
             if (taksiran<findX0(interpolmat) || taksiran>findXn(interpolmat)){
-                System.out.println("Data tidak valid! Nilai x harus berada di antara x0 sampai xn");
+                System.out.println("\nData tidak valid! Nilai x harus berada di antara x0 sampai xn");
                 return;
             }
             if (!arePointsUnique(mat)){
-                System.out.println("Data tidak valid! Setiap titik harus berbeda");
+                System.out.println("\nData tidak valid! Setiap titik harus berbeda");
                 return;
             }
             solusi = interpolMatrix(interpolmat);
         }
 
-        System.out.println("Hasil perhitungan interpolasi polinomial :");
+        System.out.println("\nHasil perhitungan interpolasi polinomial :");
         String outPut;
         String outPutH;
         outPutH = "Dengan taksiran untuk f(";
@@ -208,7 +208,7 @@ public class Interpolation {
             System.out.println(outPutH);
             
 
-            System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+            System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
             String txt = in.next();
             while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
                 System.out.print("Input tidak valid, silahkan input kembali: ");

@@ -89,16 +89,16 @@ public class InverseOBE {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
             
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
             
-            System.out.println("Matriks sebelum operasi determinan:");
+            System.out.println("\nMatriks sebelum operasi determinan:");
             m1.printMatrix();
             
             solusi=inverseOBE(m1, in);
@@ -106,16 +106,16 @@ public class InverseOBE {
             Matrix m2;
             m2=ReadWrite.txtRead(in);
 
-            System.out.println("Matriks sebelum operasi invers:");
+            System.out.println("\nMatriks sebelum operasi invers:");
             m2.printMatrix();
 
             solusi=inverseOBE(m2, in);
         }
         
         if (solusi==err){
-            System.out.println("Tidak dapat mencari inverse dengan metode OBE.");
+            System.out.println("\nTidak dapat mencari inverse dengan metode OBE.");
         } else {
-            System.out.println("Matriks setelah operasi invers dengan OBE:");
+            System.out.println("\nMatriks setelah operasi invers dengan OBE:");
             solusi.printMatrix();
         }
 

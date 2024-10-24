@@ -26,7 +26,7 @@ public class InverseSPL {
             
             // Cek apakah matriks tidak dapat di-inverse
             if (obe == err) {
-                System.out.println("Tidak dapat mencari solusi SPL karena matriks tidak dapat di-inverse.");
+                System.out.println("\nTidak dapat mencari solusi SPL karena matriks tidak dapat di-inverse.");
                 return err;
             // Perkalian matriks peubah yang sudah di-inverse dengan matriks konstanta
             } else {
@@ -38,7 +38,7 @@ public class InverseSPL {
             
             return solusi;
         } else {
-            System.out.println("Tidak dapat mencari solusi SPL karena matriks bukan matriks persegi.");
+            System.out.println("\nTidak dapat mencari solusi SPL karena matriks bukan matriks persegi.");
             return err;
         }
     }
@@ -51,16 +51,16 @@ public class InverseSPL {
         choice = ReadWrite.fileOrKeys(in);
         
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
             
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
             
-            System.out.println("Matriks sebelum operasi Inverse untuk mencari SPL:");
+            System.out.println("\nMatriks sebelum operasi Inverse untuk mencari SPL:");
             m1.printMatrix();
             
             // Print solusi
@@ -73,7 +73,7 @@ public class InverseSPL {
             Matrix m2;
             m2=ReadWrite.txtRead(in);
         
-            System.out.println("Matriks sebelum operasi Inverse untuk mencari SPL:");
+            System.out.println("\nMatriks sebelum operasi Inverse untuk mencari SPL:");
             m2.printMatrix();
             
             // Print solusi

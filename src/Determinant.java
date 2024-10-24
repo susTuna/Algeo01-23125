@@ -47,16 +47,16 @@ public class Determinant {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
             
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
             
-            System.out.println("Matriks sebelum operasi determinan:");
+            System.out.println("\nMatriks sebelum operasi determinan:");
             m1.printMatrix();
             
             solusi=det(m1, in);
@@ -65,16 +65,16 @@ public class Determinant {
             Matrix m2;
             m2=ReadWrite.txtRead(in);
 
-            System.out.println("Matriks sebelum operasi determinan:");
+            System.out.println("\nMatriks sebelum operasi determinan:");
             m2.printMatrix();
 
             solusi=det(m2, in);
         }
 
         if (solusi == err) {
-            System.out.println("Determinan tidak bisa dihitung karena bukan matriks persegi.");
+            System.out.println("\nDeterminan tidak bisa dihitung karena bukan matriks persegi.");
         } else {
-            System.out.println("Determinan : "+solusi);
+            System.out.println("\nDeterminan : "+solusi);
         }
 
         // Write to file

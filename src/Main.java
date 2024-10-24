@@ -25,7 +25,8 @@ public class Main {
         String[] row = new String[100];
 
         while (run){
-            System.out.print("MATRIX CALCULATOR\n");
+            System.out.print("\033[H\033[2J");
+            System.out.print("\nMATRIX CALCULATOR\n");
             System.out.println("\nMENU");
             System.out.println("1. Sistem Persamaan Linier");
             System.out.println("2. Determinan");

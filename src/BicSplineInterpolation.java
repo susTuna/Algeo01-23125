@@ -69,13 +69,13 @@ public class BicSplineInterpolation {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
 
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
 
             Matrix fVals=readF(in, m1);
@@ -100,7 +100,7 @@ public class BicSplineInterpolation {
         String outString = "f(" + Double.toString(a) + "," + Double.toString(b) + ") = " + Double.toString(result);
         System.out.println(outString);
         
-        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+        System.out.print("\nTulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
             System.out.print("Input tidak valid, silahkan input kembali: ");

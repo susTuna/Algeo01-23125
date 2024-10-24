@@ -83,23 +83,23 @@ public class InverseAdj {
         choice = ReadWrite.fileOrKeys(in);
 
         if (choice == 1) {
-            System.out.print("Masukkan jumlah baris: ");
+            System.out.print("\nMasukkan jumlah baris: ");
             int rows = in.nextInt();
             System.out.print("Masukkan jumlah kolom: ");
             int cols = in.nextInt();
 
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
 
-            System.out.println("Matriks sebelum operasi Invers Adjoint:");
+            System.out.println("\nMatriks sebelum operasi Invers Adjoint:");
             m1.printMatrix();
 
             if (rows != cols) {
-                System.out.println("Matriks tidak memiliki invers Adjoint karena bukan matriks persegi.");
+                System.out.println("\nMatriks tidak memiliki invers Adjoint karena bukan matriks persegi.");
             } else {
                 Matrix solusi = inversAdj(m1, in);
-                System.out.println("Matriks setelah operasi Invers Adjoint:");
+                System.out.println("\nMatriks setelah operasi Invers Adjoint:");
                 solusi.printMatrix();
 
                 // Write to file
@@ -110,14 +110,14 @@ public class InverseAdj {
             Matrix m2;
             m2 = ReadWrite.txtRead(in);
 
-            System.out.println("Matriks sebelum operasi Invers Adjoint:");
+            System.out.println("\nMatriks sebelum operasi Invers Adjoint:");
             m2.printMatrix();
 
             if (m2.row != m2.col) {
-                System.out.println("Matriks tidak memiliki invers Adjoint karena bukan matriks persegi.");
+                System.out.println("\nMatriks tidak memiliki invers Adjoint karena bukan matriks persegi.");
             } else {
                 Matrix solusi = inversAdj(m2, in);
-                System.out.println("Matriks setelah operasi Invers Adjoint:");
+                System.out.println("\nMatriks setelah operasi Invers Adjoint:");
                 solusi.printMatrix();
 
                 // Write to file
