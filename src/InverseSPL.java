@@ -2,17 +2,21 @@ import java.util.Scanner;
 
 public class InverseSPL {
     public static Matrix inverseSPL(Matrix m, Scanner in) {
+        // x = a^-1 * b
+        
         Matrix err = new Matrix(1,1);
         err.set(0, 0, -405);
-        Matrix solusi = new Matrix(m.row, 1);
-        Matrix inv = new Matrix(m.row, m.col-1);
+        
+        Matrix a = new Matrix(m.row, m.col-1);
         Matrix b = new Matrix(m.row, 1);
 
-        if (m.row==m.col-1) {
+        Matrix solusi = new Matrix(m.row, 1);
+
+        if (m.row==m.col-1) { // matriks persegi
             // Simpan matriks peubah untuk di-inverse
             for (int i = 0; i < m.row; i++) {
                 for (int j = 0; j < m.col-1; j++) {
-                    inv.set(i, j, m.elmt(i, j));
+                    a.set(i, j, m.elmt(i, j));
                 }
             }
 
@@ -22,15 +26,15 @@ public class InverseSPL {
             }
 
             // Inverse-kan matriks peubah
-            Matrix obe = InverseOBE.inverseOBE(inv, in);
+            Matrix invA = InverseOBE.inverseOBE(a, in);
             
             // Cek apakah matriks tidak dapat di-inverse
-            if (obe == err) {
+            if (invA.elmt(0, 0) == -405) {
                 System.out.println("\nTidak dapat mencari solusi SPL karena matriks tidak dapat di-inverse.");
                 return err;
             // Perkalian matriks peubah yang sudah di-inverse dengan matriks konstanta
             } else {
-                solusi = Matrix.multMatrix(obe, b);
+                solusi = Matrix.multMatrix(invA, b);
                 for (int i = 0; i < solusi.row; i++) {
                     System.out.print("x" + (i+1) + " = " + solusi.elmt(i, 0) + "\n");
                 }
