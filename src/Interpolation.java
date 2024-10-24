@@ -129,68 +129,63 @@ public class Interpolation {
     }
 
     public static void interpolF(Scanner in){
-
         Matrix m = new Matrix(0, 0);
         double taksiran = 0;
         double hasil = 0;
         double[] solusi = null;
 
-        System.out.println("Masukkan pilihan input: (1) Input dari keyboard, dan (2) Input dari file.txt");
-        int input = Main.cinCheck(1,2,in);
-        switch (input) {
-            case 1:
-                System.out.println("Masukkan jumlah titik yang akan diinterpolasi (minimal 2): ");
-                int n = Main.cinMinCheck(2,in);
-                m = new Matrix(n,n-1);
-                double[] x = new double[n];
-                double[] y = new double[n];
-                while (true){
-                    System.out.println("Masukkan "+n+" titik (Format: x0 y0 x1 y1 ... xn yn)");
-                    m.readMatrix(in);
-                    if (arePointsUnique(m)){
-                        break;
-                    }
-                    System.out.println("Data tidak valid! Setiap titik harus berbeda");
+        int choice;
+        choice = ReadWrite.fileOrKeys(in);
+
+        if (choice == 1) {
+            System.out.println("Masukkan jumlah titik yang akan diinterpolasi (minimal 2): ");
+            int n = Main.cinMinCheck(2,in);
+            m = new Matrix(n,2);
+            double[] x = new double[n];
+            double[] y = new double[n];
+            while (true){
+                System.out.println("Masukkan "+n+" titik (Format: xn yn lalu diakhiri enter)");
+                m.readMatrix(in);
+                if (arePointsUnique(m)){
+                    break;
                 }
-                System.out.println("Masukkan nilai x yang akan ditaksir nilai fungsinya: ");
+                System.out.println("Data tidak valid! Setiap titik harus berbeda");
+            }
+            System.out.println("Masukkan nilai x yang akan ditaksir nilai fungsinya: ");
+            taksiran=in.nextDouble();
+            while (taksiran<findX0c1(m) || taksiran>findXnc1(m)){
+                System.out.println("Input tidak valid, silahkan input kembali");
+                System.out.println("Nilai x harus berada di antara x0 sampai xn");
                 taksiran=in.nextDouble();
-                while (taksiran<findX0c1(m) || taksiran>findXnc1(m)){
-                    System.out.println("Input tidak valid, silahkan input kembali");
-                    System.out.println("Nilai x harus berada di antara x0 sampai xn");
-                    taksiran=in.nextDouble();
+            }
+            for(int i=0;i<m.row;i++){
+                x[i] = m.elmt(i,0);
+                y[i] = m.elmt(i,1);
+            }
+            solusi = polynomialInterpolation(x,y);
+        } else {
+            Matrix mat = ReadWrite.txtRead(in);
+            Matrix interpolmat = new Matrix(mat.row-1,mat.row);
+            for (int i=0;i<interpolmat.row;i++){
+                double ex=mat.element[i][0];
+                for (int j=0;j<interpolmat.row;j++){
+                    interpolmat.set(i,j,Math.pow(ex,j));
                 }
-                for(int i=0;i<m.row;i++){
-                    x[i] = m.elmt(i,0);
-                    y[i] = m.elmt(i,1);
-                }
-                solusi = polynomialInterpolation(x,y);
-                break;
-        
-            case 2:
-                Matrix mat = ReadWrite.txtRead(in);
-                Matrix interpolmat = new Matrix(mat.row-1,mat.row);
-                for (int i=0;i<interpolmat.row;i++){
-                    double ex=mat.element[i][0];
-                    for (int j=0;j<interpolmat.row;j++){
-                        interpolmat.set(i,j,Math.pow(ex,j));
-                    }
-                    interpolmat.set(i,interpolmat.col-1,mat.element[i][1]);
-                }
-                taksiran=mat.elmt(mat.row-1, 0);
-                if (taksiran<findX0(interpolmat) || taksiran>findXn(interpolmat)){
-                    System.out.println("Data tidak valid! Nilai x harus berada di antara x0 sampai xn");
-                    return;
-                }
-                if (!arePointsUnique(mat)){
-                    System.out.println("Data tidak valid! Setiap titik harus berbeda");
-                    return;
-                }
-                solusi = interpolMatrix(interpolmat);
-                break;
+                interpolmat.set(i,interpolmat.col-1,mat.element[i][1]);
+            }
+            taksiran=mat.elmt(mat.row-1, 0);
+            if (taksiran<findX0(interpolmat) || taksiran>findXn(interpolmat)){
+                System.out.println("Data tidak valid! Nilai x harus berada di antara x0 sampai xn");
+                return;
+            }
+            if (!arePointsUnique(mat)){
+                System.out.println("Data tidak valid! Setiap titik harus berbeda");
+                return;
+            }
+            solusi = interpolMatrix(interpolmat);
         }
-        
+
         System.out.println("Hasil perhitungan interpolasi polinomial :");
-        System.out.print("f(x) = ");
         String outPut;
         String outPutH;
         outPutH = "Dengan taksiran untuk f(";
@@ -199,23 +194,18 @@ public class Interpolation {
                 hasil+=solusi[i]*Math.pow(taksiran,i);
                 if(i!=0){
                     if(solusi[i]<0){
-                        System.out.print(" - ");
-                        System.out.print(-solusi[i]+"x^"+(i));
                         outPut+=(" - "+Double.toString(-solusi[i])+"x^"+(i));
                     }
                     else{
-                        System.out.print(" + ");
-                        System.out.print(solusi[i]+"x^"+(i));
                         outPut+=(" + "+Double.toString(solusi[i])+"x^"+(i));
                     }
                 }else{
-                    System.out.print(solusi[i]);
                     outPut+=(Double.toString(solusi[i]));
                 }
             }
             outPutH+=(Double.toString(taksiran)+") adalah " + Double.toString(hasil));
-            System.out.println();
-            System.out.println("Dengan taksiran untuk f("+taksiran+") adalah " + hasil);
+            System.out.println(outPut);
+            System.out.println(outPutH);
             
 
             System.out.print("Tulis hasil dalam file .txt? (y/n): ");
@@ -230,11 +220,5 @@ public class Interpolation {
                 output.append(outPut).append("\n").append(outPutH).append("\n");
                 ReadWrite.txtWrite(in, output.toString());
             }
-    }
-    
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        interpolF(in);
     }
 }

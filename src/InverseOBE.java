@@ -2,7 +2,8 @@ import java.util.Scanner;
 
 public class InverseOBE {
     public static Matrix inverseOBE(Matrix m, Scanner in){
-        boolean unsolv = false;
+        Matrix err = new Matrix(1,1);
+        err.set(0, 0, -405);
         Matrix solusi = new Matrix(m.row,m.col);
         Matrix temp = new Matrix(m.row,m.col+m.col);
         if (Determinant.det(m, in)!=0 && m.row==m.col){
@@ -60,42 +61,65 @@ public class InverseOBE {
                 // Cek setengah matriks temp (bagian kiri) apakah sudah menjadi matriks identitas
                 for (int j=0; j<m.col; j++){
                     if (i==j && temp.elmt(i, j)!=1 || i!=j && temp.elmt(i, j)!=0){
-                        unsolv = true;
+                        return err;
                     }
                 }
             }
 
-            if(unsolv){
-                System.out.println("Tidak dapat mencari inverse dengan metode OBE.");
-                return null;
-            } else {
-                // Isi matriks solusi dengan setengah matriks temp (bagian kanan)
-                for (int i=0; i<temp.row; i++){
-                    for (int k=m.col; k<temp.col; k++){
-                        solusi.set(i, k-m.col, temp.elmt(i, k));
-                    } 
-                }
+            // Isi matriks solusi dengan setengah matriks temp (bagian kanan)
+            for (int i=0; i<temp.row; i++){
+                for (int k=m.col; k<temp.col; k++){
+                    solusi.set(i, k-m.col, temp.elmt(i, k));
+                } 
             }
-            return solusi;
             
+            return solusi;
         } else {
-            return null;
+            return err;
         }
     }
 
-    public static void main(String[] args) {
-        Matrix ans;
+    public static void call() {
+        Matrix solusi;
+        Matrix err = new Matrix(1,1);
+        err.set(0, 0, -405);
         Scanner in = new Scanner(System.in);
 
-        Matrix mat;
-        mat=ReadWrite.txtRead(in);
+        int choice;
+        choice = ReadWrite.fileOrKeys(in);
 
-        System.out.println("Matriks sebelum operasi invers:");
-        mat.printMatrix();
+        if (choice == 1) {
+            System.out.print("Masukkan jumlah baris: ");
+            int rows = in.nextInt();
+            System.out.print("Masukkan jumlah kolom: ");
+            int cols = in.nextInt();
+            
+            Matrix m1 = new Matrix(rows, cols);
+            System.out.println("Masukkan matriks:");
+            m1.readMatrix(in);
+            
+            System.out.println("Matriks sebelum operasi determinan:");
+            m1.printMatrix();
+            
+            solusi=inverseOBE(m1, in);
+        } else { // if (choice == 2)
+            Matrix m2;
+            m2=ReadWrite.txtRead(in);
+
+            System.out.println("Matriks sebelum operasi invers:");
+            m2.printMatrix();
+
+            solusi=inverseOBE(m2, in);
+        }
         
-        ans=inverseOBE(mat, in);
+        if (solusi==err){
+            System.out.println("Tidak dapat mencari inverse dengan metode OBE.");
+        } else {
+            System.out.println("Matriks setelah operasi invers dengan OBE:");
+            solusi.printMatrix();
+        }
 
-        System.out.println("Matriks setelah operasi invers dengan OBE:");
-        ans.printMatrix();
+        // Write to file
+        ReadWrite.matrixToFile(solusi, in);
     }
 }

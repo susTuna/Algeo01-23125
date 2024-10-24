@@ -10,46 +10,9 @@ public class GaussJordan {
         boolean unsolv=false;
         boolean hasFreeVar = false;
         List<Integer> freeVar = new ArrayList<>();
-        /* Ubah Ke Matrix Eselon */
-        int N=Math.min(m.row, m.col);
-        for (int i = 0; i < N; i++) {
-            // Step 1: Find pivot (leading non-zero element in current column)
-            if (m.elmt(i, i) == 0) {
-                for (int j = i + 1; j < N; j++) {
-                    if (m.elmt(j, i) != 0) {
-                        m.swapRow(i, j);
-                        break;
-                    }
-                }
-            }
+        
+        m=mgaussJordan(m, in);
 
-            // Step 2: Normalize the row so that pivot becomes 1
-            double pivot = m.elmt(i, i);
-            if (pivot != 0) {
-                m.multRowByK(i, 1 / pivot);
-            }
-
-            // Step 3: Eliminate all elements below the pivot in the current column
-            for (int j = i + 1; j < N; j++) {
-                if(!m.isZeroRow(j)){
-                    double factor = -m.elmt(j, i);
-                    m.addRow(j, i, factor);
-                }
-                
-            }
-        }
-
-        /* Eliminasi Gauss-Jordan */
-        for(int i=N-1;i>=0;i--){
-            double pivot = m.elmt(i,i);
-
-            for(int j=i-1;j>=0;j--){
-                if(!m.isZeroRow(j)){
-                    double factor = -m.elmt(j, i);
-                    m.addRow(j, i, factor);
-                }
-            }
-        }
         /* Lakukan Substitusi Balik */
         for(int i=m.row-1;i>=0;i--){
             if(m.isZeroRow(i)&&m.elmt(i,m.col-1)!=0){
@@ -65,20 +28,6 @@ public class GaussJordan {
             }
             solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
         }
-        /* Menentukan adanya variabel bebas */
-        // for(int i=0;i<N;i++){
-        //     boolean foundPivot = false;
-        //     for(int j=0;j<m.col-1;j++){
-        //         if(m.elmt(i,j)!=0){
-        //             foundPivot=true;
-        //             break;
-        //         }
-        //     }
-        //     if(!foundPivot){
-        //         hasFreeVar=true; //variabel bebas ditemukan
-        //         isFree[i]=true;
-        //     }
-        // }
 
         /* Keluaran */
         if(unsolv){
@@ -107,26 +56,6 @@ public class GaussJordan {
             for(int i=0;i<solusi.length;i++){
                 System.out.println("x"+(i+1)+" : "+solusi[i]);
             }
-
-            System.out.print("Tulis hasil dalam file .txt? (y/n): ");
-            String txt = in.next();
-            while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
-                System.out.print("Input tidak valid, silahkan input kembali: ");
-                txt = in.next();
-            }
-
-            if (txt.equalsIgnoreCase("y")) {
-                StringBuilder output = new StringBuilder();
-                for (int i = 0; i < solusi.length; i++) {
-                    output.append("x")
-                        .append(i + 1)
-                        .append(" : ")
-                        .append(solusi[i])
-                        .append("\n");
-                }
-                ReadWrite.txtWrite(in, output.toString());
-            }
-
             return solusi;
         }
     }
@@ -175,20 +104,56 @@ public class GaussJordan {
         return m;
     }
 
-    public static void main(String[] args) {
+    public static void call() {
         Matrix ans;
+        double[] solusi;
         Scanner in = new Scanner(System.in);
-        
-        Matrix mat;
-        mat=ReadWrite.txtRead(in);
-        
-        System.out.println("Matriks sebelum Eliminasi Gauss-Jordan:");
-        mat.printMatrix();
-        
-        ans=mgaussJordan(mat, in);
 
-        System.out.println("Matriks setelah Eliminasi Gauss-Jordan:");
-        ans.printMatrix();
+        int choice;
+        choice = ReadWrite.fileOrKeys(in);
+
+        if (choice == 1) {
+            System.out.print("Masukkan jumlah baris: ");
+            int rows = in.nextInt();
+            System.out.print("Masukkan jumlah kolom: ");
+            int cols = in.nextInt();
+            
+            Matrix m1 = new Matrix(rows, cols);
+            System.out.println("Masukkan matriks:");
+            m1.readMatrix(in);
+            
+            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            m1.printMatrix();
+            
+            ans=mgaussJordan(m1, in);
+
+            System.out.println("Matriks setelah Eliminasi Gauss:");
+            ans.printMatrix();
+
+            // Print solusi
+            solusi = gaussJordan(ans, in);
+
+            // Write to file
+            ReadWrite.arrToFile(solusi, in);
+
+        } else if (choice == 2) {
+            Matrix m2;
+            m2=ReadWrite.txtRead(in);
+        
+            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            m2.printMatrix();
+            
+            ans=mgaussJordan(m2, in);
+
+            System.out.println("Matriks setelah Eliminasi Gauss:");
+            ans.printMatrix();
+
+            // Print solusi
+            solusi = gaussJordan(ans, in);
+
+            // Write to file
+            ReadWrite.arrToFile(solusi, in);
+        }
     }
 }
     

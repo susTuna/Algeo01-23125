@@ -40,7 +40,7 @@ public class RegLinier {
         
         
         Matrix solusiM = Gauss.mgauss(temp, in);
-
+        // Penyelesaian gauss
         double[] solusi2 = new double[m.col-1];
         boolean[] isFree = new boolean[m.col-1];
         boolean unsolv=false;
@@ -107,21 +107,43 @@ public class RegLinier {
         }
     }
 
-    public static void main(String[] args) {
+    public static void call() {
         double[] ans;
         Scanner in = new Scanner(System.in);
+
+        int choose;
+        choose = ReadWrite.fileOrKeys(in);
+
+        if (choose == 1) {
+            System.out.print("Masukkan jumlah baris: ");
+            int rows = in.nextInt();
+            System.out.print("Masukkan jumlah kolom: ");
+            int cols = in.nextInt();
+            
+            Matrix m1 = new Matrix(rows, cols);
+            System.out.println("Masukkan matriks:");
+            m1.readMatrix(in);
+            
+            System.out.println("Matriks sebelum regresi linier:");
+            m1.printMatrix();
+
+            ans = regLin(m1, in);
+        } else { // if (choose == 2)
+            Matrix mat;
+            mat=ReadWrite.txtRead(in);
+
+            System.out.println("Matriks sebelum regresi linier:");
+            mat.readMatrix(in);
+
+            ans = regLin(mat, in);
+        }
         
-        Matrix mat;
-        mat=ReadWrite.txtRead(in);
-
-        System.out.println("Matriks sebelum regresi linier:");
-        mat.readMatrix(in);
-
-        ans = regLin(mat, in);
-
         System.out.println("Solusi regresi linier:");
         for (int i=0; i < ans.length; i++) {
             System.out.print("beta" + (i+1) + " = " + ans[i]);
         }
+
+        // Write to file
+        ReadWrite.arrToFile(ans, in);
     }
 }
