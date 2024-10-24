@@ -83,6 +83,33 @@ public class InverseOBE {
         }
     }
 
+    public static void save2file(Matrix m, Scanner in){ // save to file buat matrix ya
+        String output;
+        output="";
+        for(int i=0;i<m.row;i++){
+            for(int j=0;j<m.col;j++){
+                if(j>0){
+                    output+=(" "+Double.toString(m.elmt(i,j)));
+                }else{
+                    output+=(Double.toString(m.elmt(i,j)));
+                }
+            }
+            if(i<m.row-1){
+                output+=("\n");
+            }
+        }
+        System.out.print("Tulis hasil dalam file .txt? (y/n): ");
+            String txt = in.next();
+            while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
+                System.out.print("Input tidak valid, silahkan input kembali: ");
+                txt = in.next();
+            }
+
+            if (txt.equalsIgnoreCase("y")) {
+                ReadWrite.txtWrite(in, output);
+            }
+    }
+
     public static void main(String[] args) {
         Matrix ans;
         Scanner in = new Scanner(System.in);
@@ -97,5 +124,7 @@ public class InverseOBE {
 
         System.out.println("Matriks setelah operasi invers dengan OBE:");
         ans.printMatrix();
+
+        save2file(mat, in);
     }
 }
