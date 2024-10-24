@@ -120,6 +120,33 @@ public class Gauss {
         }
     }
 
+    public static double[] msolution(Matrix m){
+        double[] solusi = new double[m.col-1];
+        double[] err={-69};
+        boolean unsolv = false;
+        /* Lakukan Substitusi Balik */
+        for(int i=m.row-1;i>=0;i--){
+            if(m.isZeroRow(i)&&m.elmt(i,m.col-1)!=0){
+                unsolv=true;
+                break; //tidak ada solusi
+            }
+            else if(m.isZeroRow(i)){
+                continue;
+            }
+            double sum=0;
+            for(int j=i+1;j<m.col-1;j++){
+                sum+=m.elmt(i,j)*solusi[j];
+            }
+            solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
+        }
+        if(unsolv){
+            System.out.println("Tidak dapat mencari solusi SPL.");
+            return err;
+        }else{
+            return solusi;
+        }
+    }
+
     public static Matrix mgauss(Matrix m, Scanner in){
         /* Ubah Ke Matrix Eselon */
         int N=m.row;
@@ -151,7 +178,7 @@ public class Gauss {
         }
         return m;
     }
-
+    
     public static void main(String[] args) {
         Matrix ans; //matriks hasil eliminasi gauss
         Scanner in = new Scanner(System.in);
