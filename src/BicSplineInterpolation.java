@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.lang.Math;
 
 public class BicSplineInterpolation {
     public static Matrix xMatrix(){
@@ -61,18 +60,46 @@ public class BicSplineInterpolation {
         return r;
     }
 
-    public static void BicInterpol(Scanner in){
-        double a,b;
-        Matrix readMat=ReadWrite.txtRead(in);        
-        Matrix fVals=readF(in, readMat);
-        a=readMat.elmt(readMat.col, 0);
-        b=readMat.elmt(readMat.col, 1);
-        Matrix X=xMatrix();
-        Matrix inverseX=InverseOBE.inverseOBE(X,in);
-        Matrix aVals=Matrix.multMatrix(inverseX, fVals);
-        double result = countResult(aVals, a, b);
+    public static void BicInterpol(){
+        double a, b, result;
+
+        Scanner in = new Scanner(System.in);
+        
+        int choice;
+        choice = ReadWrite.fileOrKeys(in);
+
+        if (choice == 1) {
+            System.out.print("Masukkan jumlah baris: ");
+            int rows = in.nextInt();
+            System.out.print("Masukkan jumlah kolom: ");
+            int cols = in.nextInt();
+
+            Matrix m1 = new Matrix(rows, cols);
+            System.out.println("Masukkan matriks:");
+            m1.readMatrix(in);
+
+            Matrix fVals=readF(in, m1);
+            a=m1.elmt(m1.col, 0);
+            b=m1.elmt(m1.col, 1);
+            Matrix X=xMatrix();
+            Matrix inverseX=InverseOBE.inverseOBE(X,in);
+            Matrix aVals=Matrix.multMatrix(inverseX, fVals);
+
+            result = countResult(aVals, a, b);
+        } else { // if (choose == 2) 
+            Matrix m2=ReadWrite.txtRead(in);
+            Matrix fVals=readF(in, m2);
+            a=m2.elmt(m2.col, 0);
+            b=m2.elmt(m2.col, 1);
+            Matrix X=xMatrix();
+            Matrix inverseX=InverseOBE.inverseOBE(X,in);
+            Matrix aVals=Matrix.multMatrix(inverseX, fVals);
+
+            result = countResult(aVals, a, b);
+        }
         String outString = "f(" + Double.toString(a) + "," + Double.toString(b) + ") = " + Double.toString(result);
         System.out.println(outString);
+        
         System.out.print("Tulis hasil dalam file .txt? (y/n): ");
         String txt = in.next();
         while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
