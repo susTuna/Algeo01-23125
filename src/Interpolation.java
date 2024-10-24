@@ -141,11 +141,11 @@ public class Interpolation {
             case 1:
                 System.out.println("Masukkan jumlah titik yang akan diinterpolasi (minimal 2): ");
                 int n = Main.cinMinCheck(2,in);
-                m = new Matrix(n,n-1);
+                m = new Matrix(n,2);
                 double[] x = new double[n];
                 double[] y = new double[n];
                 while (true){
-                    System.out.println("Masukkan "+n+" titik (Format: x0 y0 x1 y1 ... xn yn)");
+                    System.out.println("Masukkan "+n+" titik (Format: xn yn lalu diakhiri enter)");
                     m.readMatrix(in);
                     if (arePointsUnique(m)){
                         break;
@@ -190,7 +190,6 @@ public class Interpolation {
         }
         
         System.out.println("Hasil perhitungan interpolasi polinomial :");
-        System.out.print("f(x) = ");
         String outPut;
         String outPutH;
         outPutH = "Dengan taksiran untuk f(";
@@ -199,23 +198,18 @@ public class Interpolation {
                 hasil+=solusi[i]*Math.pow(taksiran,i);
                 if(i!=0){
                     if(solusi[i]<0){
-                        System.out.print(" - ");
-                        System.out.print(-solusi[i]+"x^"+(i));
                         outPut+=(" - "+Double.toString(-solusi[i])+"x^"+(i));
                     }
                     else{
-                        System.out.print(" + ");
-                        System.out.print(solusi[i]+"x^"+(i));
                         outPut+=(" + "+Double.toString(solusi[i])+"x^"+(i));
                     }
                 }else{
-                    System.out.print(solusi[i]);
                     outPut+=(Double.toString(solusi[i]));
                 }
             }
             outPutH+=(Double.toString(taksiran)+") adalah " + Double.toString(hasil));
-            System.out.println();
-            System.out.println("Dengan taksiran untuk f("+taksiran+") adalah " + hasil);
+            System.out.println(outPut);
+            System.out.println(outPutH);
             
 
             System.out.print("Tulis hasil dalam file .txt? (y/n): ");
