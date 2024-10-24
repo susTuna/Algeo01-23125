@@ -10,39 +10,14 @@ public class Gauss {
         boolean unsolv=false;
         boolean hasFreeVar = false;
         List<Integer> freeVar = new ArrayList<>();
-        /* Ubah Ke Matrix Eselon */
+
         int N=m.row;
-        for (int i = 0; i < N; i++) {
-            // Step 1: Find pivot (leading non-zero element in current column)
-            if (m.elmt(i, i) == 0) {
-                for (int j = i + 1; j < N; j++) {
-                    if (m.elmt(j, i) != 0) {
-                        m.swapRow(i, j);
-                        break;
-                    }
-                }
-            }
+        m=mgauss(m, in);
 
-            // Step 2: Normalize the row so that pivot becomes 1
-            double pivot = m.elmt(i, i);
-            if (pivot != 0) {
-                m.multRowByK(i, 1 / pivot);
-            }
-
-            // Step 3: Eliminate all elements below the pivot in the current column
-            for (int j = i + 1; j < N; j++) {
-                if(!m.isZeroRow(j)){
-                    double factor = -m.elmt(j, i);
-                    m.addRow(j, i, factor);
-                }
-                
-            }
-        }
         /* Lakukan Substitusi Balik */
         for(int i=m.row-1;i>=0;i--){
             if(m.isZeroRow(i)&&m.elmt(i,m.col-1)!=0){
-                unsolv=true;
-                break; //tidak ada solusi
+                return err;
             }
             else if(m.isZeroRow(i)){
                 freeVar.add(i); //variabel bebas
@@ -96,26 +71,6 @@ public class Gauss {
             for(int i=0;i<solusi.length;i++){
                 System.out.println("x"+(i+1)+" : "+solusi[i]);
             }
-
-            System.out.print("Tulis hasil dalam file .txt? (y/n): ");
-            String txt = in.next();
-            while (!txt.equalsIgnoreCase("y") && !txt.equalsIgnoreCase("n")) {
-                System.out.print("Input tidak valid, silahkan input kembali: ");
-                txt = in.next();
-            }
-
-            if (txt.equalsIgnoreCase("y")) {
-                StringBuilder output = new StringBuilder();
-                for (int i = 0; i < solusi.length; i++) {
-                    output.append("x")
-                        .append(i + 1)
-                        .append(" : ")
-                        .append(solusi[i])
-                        .append("\n");
-                }
-                ReadWrite.txtWrite(in, output.toString());
-            }
-
             return solusi;
         }
     }
@@ -152,19 +107,83 @@ public class Gauss {
         return m;
     }
 
-    public static void main(String[] args) {
-        Matrix ans; //matriks hasil eliminasi gauss
+    public static double[] msolution(Matrix m){
+        double[] solusi = new double[m.col-1];
+        double[] err={-69};
+        boolean unsolv = false;
+        /* Lakukan Substitusi Balik */
+        for(int i=m.row-1;i>=0;i--){
+            if(m.isZeroRow(i)&&m.elmt(i,m.col-1)!=0){
+                unsolv=true;
+                break; //tidak ada solusi
+            }
+            else if(m.isZeroRow(i)){
+                continue;
+            }
+            double sum=0;
+            for(int j=i+1;j<m.col-1;j++){
+                sum+=m.elmt(i,j)*solusi[j];
+            }
+            solusi[i]=(m.elmt(i,m.col-1)-sum)/m.elmt(i,i);
+        }
+        if(unsolv){
+            System.out.println("Tidak dapat mencari solusi SPL.");
+            return err;
+        }else{
+            return solusi;
+        }
+    }
+
+    public static void call() {
+        Matrix ans;
+        double[] solusi;
         Scanner in = new Scanner(System.in);
 
-        Matrix mat;
-        mat=ReadWrite.txtRead(in);
-        
-        System.out.println("Matriks sebelum Eliminasi Gauss:");
-        mat.printMatrix();
-        
-        ans=mgauss(mat, in);
+        int choice;
+        choice = ReadWrite.fileOrKeys(in);
 
-        System.out.println("Matriks setelah Eliminasi Gauss:");
-        ans.printMatrix();
+        if (choice == 1) {
+            System.out.print("Masukkan jumlah baris: ");
+            int rows = in.nextInt();
+            System.out.print("Masukkan jumlah kolom: ");
+            int cols = in.nextInt();
+            
+            Matrix m1 = new Matrix(rows, cols);
+            System.out.println("Masukkan matriks:");
+            m1.readMatrix(in);
+            
+            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            m1.printMatrix();
+            
+            ans=mgauss(m1, in);
+
+            System.out.println("Matriks setelah Eliminasi Gauss:");
+            ans.printMatrix();
+
+            // Print solusi
+            solusi = gauss(ans, in);
+
+            // Write to file
+            ReadWrite.arrToFile(solusi, in);
+
+        } else if (choice == 2) {
+            Matrix m2;
+            m2=ReadWrite.txtRead(in);
+        
+            System.out.println("Matriks sebelum Eliminasi Gauss:");
+            m2.printMatrix();
+            
+            ans=mgauss(m2, in);
+
+            System.out.println("Matriks setelah Eliminasi Gauss:");
+            ans.printMatrix();
+
+            // Print solusi
+            solusi = gauss(ans, in);
+
+            // Write to file
+            ReadWrite.arrToFile(solusi, in);
+        }
+        
     }
 }
