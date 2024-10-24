@@ -4,32 +4,44 @@ public class Cramer {
     public static double[] cramer(Matrix m, Scanner in){
         double[] err = {-405};
         double[] solusi = new double[m.row];
-        Matrix temp = new Matrix(m.row, m.col-1);
-        double dete = Determinant.det(m, in);
-        if (Determinant.det(m, in) != 0 && m.row == (m.col-1)) {
+
+        // Create the coefficient matrix (n x n) from the original matrix (n x (n+1))
+        Matrix coeffMatrix = new Matrix(m.row, m.col - 1);
+        // Fill the coefficient matrix
+        for (int i = 0; i < m.row; i++) {
+            for (int j = 0; j < m.col - 1; j++) {
+                coeffMatrix.set(i, j, m.elmt(i, j));
+            }
+        }
+
+        
+
+        double dete = Determinant.det(coeffMatrix, in);
+        
+        if (dete != 0 && m.row == (m.col-1)) {
+            Matrix temp = new Matrix(m.row, m.col-1);
+
             for (int i = 0; i < m.row; i++) { 
-                // Swap column i with the last column
-                m.swapCol(i, m.col-1); 
-                // Copy the matrix to temporary matrix
                 for (int j = 0; j < m.row; j++) {
                     for (int k = 0; k < m.col-1; k++) {
-                        temp.set(j, k, m.elmt(j, k));
+                        temp.set(j, k, coeffMatrix.elmt(j, k));
                     }
                 }
-                // Put the SPL solution in a temporary array
-                solusi[i] = Determinant.det(temp, in)/dete;
-                // Swap back the column
-                m.swapCol(i, m.col-1);
+                for (int j = 0; j < m.row; j++) {
+                    temp.set(j, i, m.elmt(j, m.col - 1));
+                }
+                double detTemp = Determinant.det(temp, in);
+                solusi[i] = detTemp/dete;
             }
 
-            System.out.println("Solusi SPL:");
+            System.out.println("\nSolusi SPL:");
             for (int i = 0; i < solusi.length; i++) {
                 System.out.println("x" + (i+1) + " : " + solusi[i]);
             }
 
             return solusi;
         } else {
-            System.out.println("Tidak dapat mencari solusi kaidah cramer karena determinan matriks = 0.");
+            System.out.println("\nTidak dapat mencari solusi kaidah cramer karena determinan matriks = 0.");
             return err;
         }
     }
@@ -48,10 +60,10 @@ public class Cramer {
             int cols = in.nextInt();
             
             Matrix m1 = new Matrix(rows, cols);
-            System.out.println("Masukkan matriks:");
+            System.out.println("\nMasukkan matriks:");
             m1.readMatrix(in);
             
-            System.out.println("Matriks sebelum operasi Cramer:");
+            System.out.println("\nMatriks sebelum operasi Cramer:");
             m1.printMatrix();
             
             // Print solusi
@@ -63,7 +75,7 @@ public class Cramer {
             Matrix m2;
             m2=ReadWrite.txtRead(in);
 
-            System.out.println("Matriks sebelum operasi Cramer:");
+            System.out.println("\nMatriks sebelum operasi Cramer:");
             m2.printMatrix();
 
             // Print solusi
