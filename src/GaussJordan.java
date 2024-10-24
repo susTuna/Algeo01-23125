@@ -131,7 +131,7 @@ public class GaussJordan {
         }
     }
 
-    public static Matrix mgaussJordan(Matrix m){
+    public static Matrix mgaussJordan(Matrix m, Scanner in){
         /* Ubah Ke Matrix Eselon */
         int N=Math.min(m.row, m.col);
         for (int i = 0; i < N; i++) {
@@ -176,19 +176,19 @@ public class GaussJordan {
     }
 
     public static void main(String[] args) {
-        double[] ans;
+        Matrix ans;
         Scanner in = new Scanner(System.in);
         
-        Matrix mat = null;
+        Matrix mat;
         mat=ReadWrite.txtRead(in);
         
-        System.out.println("Matrix before Gauss-Jordan elimination:");
+        System.out.println("Matriks sebelum Eliminasi Gauss-Jordan:");
         mat.printMatrix();
         
-        ans=gaussJordan(mat,in);
+        ans=mgaussJordan(mat, in);
 
-        System.out.println("Matrix after Gaussian-Jordan elimination:");
-        mat.printMatrix();
+        System.out.println("Matriks setelah Eliminasi Gauss-Jordan:");
+        ans.printMatrix();
     }
 }
     

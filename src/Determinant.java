@@ -1,12 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Determinant {
-    public static double det(Matrix m){
+    public static double det(Matrix m, Scanner in){
         double err = -405;
         double det = 1;
         Matrix copy = m.copyMatrix(m);
+
+        if (m.row != m.col) {
+            System.out.println("Determinan tidak bisa dihitung karena bukan matriks persegi.");
+            return err;
+        }
+
         /* Ubah Ke Matrix Eselon */
         int N=copy.row;
         for (int i = 0; i < N; i++) {
@@ -40,20 +44,15 @@ public class Determinant {
     public static void main(String[] args) {
         double ans;
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter the number of rows: ");
-        int rows = in.nextInt();
-        System.out.print("Enter the number of columns: ");
-        int cols = in.nextInt();
         
-        Matrix mat = new Matrix(rows, cols);
-        System.out.println("Enter matrix elements:");
-        mat.readMatrix(in);
-        
-        ans=det(mat);
+        Matrix mat;
+        mat=ReadWrite.txtRead(in);
 
-        System.out.println("Matrix after Gaussian elimination:");
+        System.out.println("Matriks sebelum operasi determinan:");
         mat.printMatrix();
+        
+        ans=det(mat, in);
 
-        System.out.println("Determinant : "+ans);
+        System.out.println("Determinan : "+ans);
     }
 }
