@@ -24,9 +24,9 @@ Laporan dibuat dengan : Google Docs
 
 ### Cara Menjalankan Program
 Ada 2 opsi untuk menjalankan program, yaitu:
-1. Jalankan file RunProg.jar dengan
+1. Jalankan file RunMatrix.jar dengan
 ```
-java -jar RunProg.jar
+java -jar RunMatrix.jar
 ```
 2. Jalankan secara manual, run dari program Main.java
 ### Input berupa File
